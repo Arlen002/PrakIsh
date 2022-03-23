@@ -10,6 +10,5 @@ public class UserDao {
     public  static List<User> users = new ArrayList<>();
 
 
-    public void addUser(User user) {
-    }
+
 }
