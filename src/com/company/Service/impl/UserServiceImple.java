@@ -12,29 +12,32 @@ public class UserServiceImple  implements UserService {
 
     @Override
     public void addUser(User user) {
-        userDao.addUser(user);
+        UserDao.users.add(user);
     }
 
     @Override
-    public void findById(int id) {
-        try {
-            if (userDao.checkTrueOrFalse(id)) {
+    public void searchId(int id) {
+
+            if (!checkTrueOrFalse(id)) {
+                try {
                 throw new MyExseption("There is no such id");
+            } catch(MyExseption e){
+             System.err.println(e.getMessage());
+          }}else {
+                UserDao.users.stream().filter(user -> user.getId() == id).forEach(System.out::println);
             }
-            userDao.findById(id);
-        } catch (MyExseption e) {
-            System.err.println(e.getMessage());
         }
+    @Override
+    public void removeId(int id) {
+        UserDao.users.removeIf(user -> user.getId() == id);
     }
 
     @Override
-    public void removeById(int id) {
-        userDao.removeById(id);
+    public List<User> sizeUsers() {
+       return UserDao.users.stream().toList();
     }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public boolean checkTrueOrFalse(int id) {
+        return UserDao.users.stream().filter(user -> user.getId() == id).isParallel();
     }
 
 }
